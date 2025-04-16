@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/utils";
 import { Button } from "./ui/button";
 
 import deleteIcon from "@/public/assets/images/icon-remove-item.svg";
+import { toast } from "sonner";
 
 export const CartItems = () => {
   const { items, removeFromCart } = useCartStore((state) => state);
@@ -35,7 +36,13 @@ export const CartItems = () => {
                 </span>
               </p>
             </div>
-            <Button onClick={() => removeFromCart(item.slug)} variant="ghost">
+            <Button
+              onClick={() => {
+                removeFromCart(item.slug);
+                toast.success(`${item.name} removed from cart.`);
+              }}
+              variant="ghost"
+            >
               <Image src={deleteIcon} alt="" />
             </Button>
           </div>

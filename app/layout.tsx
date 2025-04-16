@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 import { CartStoreProvider } from "@/providers/cart-store-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const redHatText = localFont({
   src: [
@@ -37,8 +38,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${redHatText.className} bg-rose-50 antialiased`}>
+      <body
+        className={`${redHatText.className} relative bg-rose-50 antialiased`}
+      >
         <CartStoreProvider>{children}</CartStoreProvider>
+        <Toaster richColors />
       </body>
     </html>
   );

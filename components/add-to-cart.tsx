@@ -6,6 +6,7 @@ import cart from "@/public/assets/images/icon-add-to-cart.svg";
 
 import { useCartStore } from "@/providers/cart-store-provider";
 import { Product } from "@/lib/types";
+import { toast } from "sonner";
 
 export const AddToCart = ({ product }: { product: Product }) => {
   const { addToCart, items, handleQuantityChange, removeFromCart } =
@@ -22,6 +23,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
       price: product.price,
       quantity: 1,
     });
+    toast.success(`${product.name} added successfully.`);
   };
 
   const handleIncreaseQty = () => {
@@ -33,6 +35,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
       handleQuantityChange(product.slug, currentProduct.quantity - 1);
     } else {
       removeFromCart(product.slug);
+      toast.success(`${product.name} removed from cart.`);
     }
   };
 
