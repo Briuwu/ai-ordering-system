@@ -12,6 +12,8 @@
   --color-rose-100: #f5eeec;
   --color-rose-50: #fcf8f6;
   --color-green: #1ea575;
+
+  --font-red-hat: var(--font-red-hat-text);
 }
 
 @theme inline {
