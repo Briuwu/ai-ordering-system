@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 import { Product } from "@/lib/types";
-import { AddToCart } from "./add-to-cart";
 import { formatPrice } from "@/lib/utils";
+import { AddToCart } from "./add-to-cart";
 
 type Props = {
   product: Product;

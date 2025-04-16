@@ -2,6 +2,7 @@ import { createStore } from "zustand/vanilla";
 
 export type CartState = {
   items: { name: string; price: number; quantity: number; slug: string }[];
+  total: number;
 };
 
 export type CartActions = {
@@ -22,12 +23,14 @@ export type CartActions = {
       slug: string;
     }[],
   ) => void;
+  setTotal: (total: number) => void;
 };
 
 export type CartStore = CartState & CartActions;
 
 export const defaultInitState: CartState = {
   items: [],
+  total: 0,
 };
 
 export const createCartStore = (initState: CartState = defaultInitState) => {
@@ -52,5 +55,6 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
       }),
     addCartItems: (items) =>
       set((state) => ({ items: [...state.items, ...items] })),
+    setTotal: (total) => set(() => ({ total })),
   }));
 };
