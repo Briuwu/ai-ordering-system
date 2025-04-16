@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Product } from "@/lib/types";
 import { AddToCart } from "./add-to-cart";
+import { formatPrice } from "@/lib/utils";
 
 type Props = {
   product: Product;
@@ -39,12 +40,7 @@ export const ProductCard = ({ product }: Props) => {
       <div>
         <p className="text-sm text-rose-500">{product.category}</p>
         <p className="font-semibold text-rose-900">{product.name}</p>
-        <p className="text-red font-semibold">
-          {new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-          }).format(product.price)}
-        </p>
+        <p className="text-red font-semibold">{formatPrice(product.price)}</p>
       </div>
     </div>
   );
