@@ -1,14 +1,27 @@
 import { createStore } from "zustand/vanilla";
 
 export type CartState = {
-  items: { name: string; price: number; quantity: number }[];
+  items: { name: string; price: number; quantity: number; slug: string }[];
 };
 
 export type CartActions = {
-  addToCart: (item: { name: string; price: number; quantity: number }) => void;
-  removeFromCart: (name: string) => void;
+  addToCart: (item: {
+    name: string;
+    price: number;
+    quantity: number;
+    slug: string;
+  }) => void;
+  removeFromCart: (slug: string) => void;
   clearCart: () => void;
-  handleQuantityChange: (name: string, quantity: number) => void;
+  handleQuantityChange: (slug: string, quantity: number) => void;
+  addCartItems: (
+    items: {
+      name: string;
+      price: number;
+      quantity: number;
+      slug: string;
+    }[],
+  ) => void;
 };
 
 export type CartStore = CartState & CartActions;
@@ -22,20 +35,22 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
     ...initState,
     addToCart: (item) =>
       set((state) => ({ items: [...state.items, { ...item, quantity: 1 }] })),
-    removeFromCart: (name) =>
+    removeFromCart: (slug) =>
       set((state) => ({
-        items: state.items.filter((item) => item.name !== name),
+        items: state.items.filter((item) => item.slug !== slug),
       })),
     clearCart: () => set(() => ({ items: [] })),
-    handleQuantityChange: (name, quantity) =>
+    handleQuantityChange: (slug, quantity) =>
       set((state) => {
         const items = state.items.map((item) => {
-          if (item.name === name) {
+          if (item.slug === slug) {
             return { ...item, quantity };
           }
           return item;
         });
         return { items };
       }),
+    addCartItems: (items) =>
+      set((state) => ({ items: [...state.items, ...items] })),
   }));
 };

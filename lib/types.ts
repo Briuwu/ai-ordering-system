@@ -1,3 +1,3 @@
-import data from "./data.json";
+import { DATA } from "./content";
 
-export type Product = (typeof data)[number];
+export type Product = (typeof DATA)[number];

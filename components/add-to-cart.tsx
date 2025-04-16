@@ -11,27 +11,28 @@ export const AddToCart = ({ product }: { product: Product }) => {
   const { addToCart, items, handleQuantityChange, removeFromCart } =
     useCartStore((state) => state);
 
-  const currentProduct = items.find((item) => item.name === product.name)!;
+  const currentProduct = items.find((item) => item.slug === product.slug)!;
 
   const isAdded = currentProduct !== undefined;
 
   const handleAddToCart = () => {
     addToCart({
       name: product.name,
+      slug: product.slug,
       price: product.price,
       quantity: 1,
     });
   };
 
   const handleIncreaseQty = () => {
-    handleQuantityChange(product.name, currentProduct.quantity + 1);
+    handleQuantityChange(product.slug, currentProduct.quantity + 1);
   };
 
   const handleDecreaseQty = () => {
     if (currentProduct.quantity > 1) {
-      handleQuantityChange(product.name, currentProduct.quantity - 1);
+      handleQuantityChange(product.slug, currentProduct.quantity - 1);
     } else {
-      removeFromCart(product.name);
+      removeFromCart(product.slug);
     }
   };
 
