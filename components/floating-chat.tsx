@@ -117,135 +117,151 @@ export default function FloatingChat() {
   };
 
   return (
-    <div className="fixed right-4 bottom-4 z-50">
+    <div className="fixed right-4 bottom-4">
       {/* Floating button */}
       {!isOpen && (
         <Button
           onClick={toggleChat}
           className="fixed right-4 bottom-4 h-14 rounded-full shadow-lg"
         >
-          Use our AI Chat Bot to order! <MessageCircle className="h-10 w-10" />
+          <span className="hidden md:block">Use our AI Chat Bot to order!</span>{" "}
+          <MessageCircle className="h-10 w-10" />
         </Button>
       )}
 
       {/* Chat window */}
-      <div
-        className={cn(
-          "transform transition-all duration-300 ease-in-out",
-          isOpen
-            ? "scale-100 opacity-100"
-            : "pointer-events-none scale-95 opacity-0",
-        )}
-      >
-        <Card className="h-[500px] w-80 shadow-xl sm:w-96">
-          <CardHeader className="flex flex-row items-center justify-between border-b p-3">
-            <h3 className="font-semibold">Chat Assistant</h3>
-            <Button variant="ghost" size="icon" onClick={toggleChat}>
-              <X className="h-4 w-4" />
-            </Button>
-          </CardHeader>
-
-          <CardContent className="h-72 overflow-y-auto p-4">
-            {messages.length === 0 ? (
-              <div className="text-muted-foreground flex h-full items-center justify-center text-center">
-                <p>How can I help you today?</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {messages.map((message) => (
-                  <div key={message.id}>
-                    <div
-                      className={cn(
-                        "max-w-[80%] rounded-lg p-3",
-                        message.role === "user"
-                          ? "bg-primary text-primary-foreground ml-auto"
-                          : "bg-muted",
-                      )}
-                    >
-                      {message.content}
-                    </div>
-                    {orders
-                      .filter((order) => order.chatId === message.id)
-                      .map((order) => (
-                        <div
-                          key={order.chatId}
-                          className="max-w-[80%] divide-y p-3"
-                        >
-                          {order.orders.map((item) => {
-                            const isAdded = items.some(
-                              (cartItem) => cartItem.slug === item.slug,
-                            );
-                            return (
-                              <div
-                                key={item.slug}
-                                className="flex items-center justify-between py-2"
-                              >
-                                <div
-                                  className={cn(
-                                    isAdded && "line-through opacity-50",
-                                  )}
-                                >
-                                  <p>{item.name}</p>
-                                  <p className="text-red text-xs">
-                                    {formatPrice(item.price)}
-                                  </p>
-                                </div>
-                                {isAdded ? (
-                                  <Button
-                                    onClick={() => removeFromCart(item.slug)}
-                                    variant="ghost"
-                                  >
-                                    <X />
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    onClick={() => addToCart(item)}
-                                    variant="ghost"
-                                  >
-                                    <Plus />
-                                  </Button>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ))}
-                  </div>
-                ))}
-                {isLoading && (
-                  <div className="bg-muted max-w-[80%] rounded-lg p-3">
-                    <div className="flex space-x-2">
-                      <div className="h-2 w-2 animate-bounce rounded-full bg-current" />
-                      <div className="h-2 w-2 animate-bounce rounded-full bg-current delay-75" />
-                      <div className="h-2 w-2 animate-bounce rounded-full bg-current delay-150" />
-                    </div>
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-            )}
-          </CardContent>
-
-          <CardFooter className="flex-col gap-2 p-3 pt-0">
-            <form onSubmit={handleSubmit} className="flex w-full gap-2">
-              <Input
-                value={input}
-                onChange={handleInputChange}
-                placeholder="Type a message..."
-                className="flex-1"
-                disabled={isLoading}
-                maxLength={150}
-              />
-              <Button type="submit" size="icon" disabled={isLoading}>
-                <Send className="h-4 w-4" />
+      {isOpen && (
+        <div
+          className={cn(
+            "transform transition-all duration-300 ease-in-out",
+            isOpen
+              ? "scale-100 opacity-100"
+              : "pointer-events-none scale-95 opacity-0",
+          )}
+        >
+          <Card className="w-80 shadow-xl sm:w-96">
+            <CardHeader className="flex flex-row items-center justify-between border-b p-3">
+              <h3 className="font-semibold">AI Chat Ordering Assistant</h3>
+              <Button variant="ghost" size="icon" onClick={toggleChat}>
+                <X className="h-4 w-4" />
               </Button>
-            </form>
-            <div className="text-muted-foreground w-full text-left text-xs">
-              {input.length}/150
-            </div>
-          </CardFooter>
-        </Card>
-      </div>
+            </CardHeader>
+
+            <CardContent className="h-72 overflow-y-auto p-4">
+              {messages.length === 0 ? (
+                <div className="text-muted-foreground flex h-full items-center justify-center text-center">
+                  <p>
+                    No messages yet. Ask me anything and I will help you with
+                    your order!
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {messages.map((message) => (
+                    <div key={message.id}>
+                      <div
+                        className={cn(
+                          "max-w-[80%] rounded-lg p-3",
+                          message.role === "user"
+                            ? "bg-primary text-primary-foreground ml-auto"
+                            : "bg-muted",
+                        )}
+                      >
+                        {message.content}
+                      </div>
+                      {orders
+                        .filter((order) => order.chatId === message.id)
+                        .map((order) => (
+                          <div
+                            key={order.chatId}
+                            className="max-w-[80%] divide-y p-3"
+                          >
+                            {order.orders.map((item) => {
+                              const isAdded = items.some(
+                                (cartItem) => cartItem.slug === item.slug,
+                              );
+                              return (
+                                <div
+                                  key={item.slug}
+                                  className="flex items-center justify-between py-2"
+                                >
+                                  <div
+                                    className={cn(
+                                      isAdded && "line-through opacity-50",
+                                    )}
+                                  >
+                                    <p>{item.name}</p>
+                                    <p className="text-red text-xs">
+                                      {formatPrice(item.price)}
+                                    </p>
+                                  </div>
+                                  {isAdded ? (
+                                    <Button
+                                      onClick={() => {
+                                        removeFromCart(item.slug);
+                                        toast.success(
+                                          `${item.name} removed from cart.`,
+                                        );
+                                      }}
+                                      variant="ghost"
+                                    >
+                                      <X />
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      onClick={() => {
+                                        addToCart(item);
+                                        toast.success(
+                                          `${item.name} added successfully.`,
+                                        );
+                                      }}
+                                      variant="ghost"
+                                    >
+                                      <Plus />
+                                    </Button>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ))}
+                    </div>
+                  ))}
+                  {isLoading && (
+                    <div className="bg-muted max-w-[80%] rounded-lg p-3">
+                      <div className="flex space-x-2">
+                        <div className="h-2 w-2 animate-bounce rounded-full bg-current" />
+                        <div className="h-2 w-2 animate-bounce rounded-full bg-current delay-75" />
+                        <div className="h-2 w-2 animate-bounce rounded-full bg-current delay-150" />
+                      </div>
+                    </div>
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+            </CardContent>
+
+            <CardFooter className="flex-col gap-2 p-3 pt-0">
+              <form onSubmit={handleSubmit} className="flex w-full gap-2">
+                <Input
+                  value={input}
+                  onChange={handleInputChange}
+                  placeholder="Type a message..."
+                  className="flex-1"
+                  disabled={isLoading}
+                  maxLength={150}
+                />
+                <Button type="submit" size="icon" disabled={isLoading}>
+                  <Send className="h-4 w-4" />
+                </Button>
+              </form>
+              <div className="text-muted-foreground w-full text-left text-xs">
+                {input.length}/150
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

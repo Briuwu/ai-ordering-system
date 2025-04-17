@@ -42,7 +42,7 @@ export default function RootLayout({
         className={`${redHatText.className} relative bg-rose-50 antialiased`}
       >
         <CartStoreProvider>{children}</CartStoreProvider>
-        <Toaster richColors />
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

@@ -2,19 +2,14 @@
 import { useCartStore } from "@/providers/cart-store-provider";
 import Image from "next/image";
 
-import { formatPrice } from "@/lib/utils";
-import { Button } from "./ui/button";
 import { CartItems } from "./cart-items";
 
 import emptyCart from "@/public/assets/images/illustration-empty-cart.svg";
 import treeIcon from "@/public/assets/images/icon-carbon-neutral.svg";
+import { ConfirmOrder } from "./confirm-order";
 
 export const Cart = () => {
   const { items } = useCartStore((state) => state);
-
-  const orderTotal = items.reduce((acc, item) => {
-    return acc + item.price * item.quantity;
-  }, 0);
 
   return (
     <aside className="rounded-xl bg-white p-6">
@@ -31,10 +26,6 @@ export const Cart = () => {
       ) : (
         <div>
           <CartItems />
-          <div className="flex items-center justify-between border-t border-rose-100 py-6 text-rose-900">
-            <p className="text-sm">Order Total</p>
-            <p className="text-2xl font-bold">{formatPrice(orderTotal)}</p>
-          </div>
 
           <div className="flex items-center justify-center gap-2 rounded-md bg-rose-50 py-4">
             <Image src={treeIcon} alt="" />
@@ -44,9 +35,7 @@ export const Cart = () => {
             </p>
           </div>
 
-          <Button className="bg-red mt-6 h-[53px] w-full rounded-full font-semibold text-white">
-            Confirm Order
-          </Button>
+          <ConfirmOrder />
         </div>
       )}
     </aside>

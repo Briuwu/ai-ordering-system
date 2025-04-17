@@ -12,6 +12,10 @@ import { toast } from "sonner";
 export const CartItems = () => {
   const { items, removeFromCart } = useCartStore((state) => state);
 
+  const orderTotal = items.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
+
   return (
     <div className="divide-y divide-rose-100">
       {items.map((item) => {
@@ -48,6 +52,10 @@ export const CartItems = () => {
           </div>
         );
       })}
+      <div className="flex items-center justify-between py-6 text-rose-900">
+        <p className="text-sm">Order Total</p>
+        <p className="text-2xl font-bold">{formatPrice(orderTotal)}</p>
+      </div>
     </div>
   );
 };
