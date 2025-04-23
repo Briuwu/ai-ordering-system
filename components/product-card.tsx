@@ -11,7 +11,7 @@ type Props = {
 export const ProductCard = ({ product }: Props) => {
   return (
     <div className="mx-auto space-y-9">
-      <div className="relative">
+      <div className="relative z-0">
         <Image
           src={product.image.desktop.replace(".", "")}
           alt=""

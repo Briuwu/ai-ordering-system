@@ -117,7 +117,7 @@ export default function FloatingChat() {
   };
 
   return (
-    <div className="fixed right-4 bottom-4">
+    <div className="fixed right-4 bottom-4 z-50">
       {/* Floating button */}
       {!isOpen && (
         <Button
@@ -133,7 +133,7 @@ export default function FloatingChat() {
       {isOpen && (
         <div
           className={cn(
-            "transform transition-all duration-300 ease-in-out",
+            "relative z-50 transform transition-all duration-300 ease-in-out",
             isOpen
               ? "scale-100 opacity-100"
               : "pointer-events-none scale-95 opacity-0",
