@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { CartStoreProvider } from "@/providers/cart-store-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
 
 const redHatText = localFont({
   src: [
@@ -43,6 +44,7 @@ export default function RootLayout({
       >
         <CartStoreProvider>{children}</CartStoreProvider>
         <Toaster richColors position="top-right" />
+        <Analytics />
       </body>
     </html>
   );
